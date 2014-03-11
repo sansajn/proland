@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "ork/core/Object.h"
 

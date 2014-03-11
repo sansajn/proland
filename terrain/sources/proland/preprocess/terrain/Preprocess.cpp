@@ -29,6 +29,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include "ork/core/Object.h"
 #include "proland/preprocess/terrain/ApertureMipmap.h"
@@ -502,7 +503,7 @@ void createDir(const string &dir)
             createDir(dir.substr(0, index));
         }
     }
-    int status = mkdir(dir.c_str());
+    int status = mkdir(dir.c_str(), S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH);
     if (status != 0 && errno != EEXIST) {
         fprintf(stderr, "Cannot create directory %s\n", dir.c_str());
         throw exception();
