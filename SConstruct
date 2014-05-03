@@ -48,6 +48,15 @@ env.Program([
 	LIBPATH = ['../ork', '../anttweakbar'],
 )
 
+# terrain
+terrain_path = 'terrain/sources/proland/'
+
+terrain_objs = env.Object([
+	Glob(terrain_path+'*.cpp'),
+	Glob(terrain_path+'dem/*.cpp'),
+	Glob(terrain_path+'ortho/*.cpp'),
+	Glob(terrain_path+'preprocess/terrain/*.cpp')]
+)
 
 # graph
 env.Append(
@@ -64,7 +73,22 @@ graph_graph_objs = env.Object([
 
 graph_ortho_objs = env.Object(Glob(graph_path+'ortho/*.cpp'))
 
-graph_objs = env.Object(Glob(graph_path+'*.cpp'))
+graph_objs = [
+	graph_dem_objs,
+	graph_graph_objs,
+	graph_ortho_objs,
+	env.Object(Glob(graph_path+'*.cpp'))
+]
+
+# graph:examples
+env.Program([
+	'graph/examples/graph1/HelloWorld.cpp',
+	core_objs, 
+	terrain_objs,
+	graph_objs],
+	LIBS = ['ork', 'anttweakbar', common_libs],
+	LIBPATH = ['../anttweakbar']
+)
 
 # atmo
 env.Append(
@@ -73,15 +97,4 @@ env.Append(
 
 atmo_objs =	env.Object(
 	Glob('atmo/sources/proland/preprocess/atmo/*.cpp'))
-
-
-# terrain
-terrain_path = 'terrain/sources/proland/'
-
-terrain_objs = env.Object([
-	Glob(terrain_path+'*.cpp'),
-	Glob(terrain_path+'dem/*.cpp'),
-	Glob(terrain_path+'ortho/*.cpp'),
-	Glob(terrain_path+'preprocess/terrain/*.cpp')]
-)
 
