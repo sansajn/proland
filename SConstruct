@@ -1,7 +1,6 @@
 env = Environment()
 
 # core
-
 env.Append(
 	CPPFLAGS = ['-g', '-O0']
 )
@@ -46,12 +45,11 @@ env.Program([
 	'core/examples/helloworld/HelloWorld.cpp', 
 	core_objs],
 	LIBS = ['ork', 'anttweakbar', common_libs], 
-	LIBPATH = ['../ork', '../anttweakbar']
+	LIBPATH = ['../ork', '../anttweakbar'],
 )
 
 
 # graph
-
 env.Append(
 	CPPPATH = ['graph/sources', 'terrain/sources']
 )
@@ -69,7 +67,6 @@ graph_ortho_objs = env.Object(Glob(graph_path+'ortho/*.cpp'))
 graph_objs = env.Object(Glob(graph_path+'*.cpp'))
 
 # atmo
-
 env.Append(
 	CPPPATH = 'atmo/sources'
 )
@@ -79,7 +76,6 @@ atmo_objs =	env.Object(
 
 
 # terrain
-
 terrain_path = 'terrain/sources/proland/'
 
 terrain_objs = env.Object([
@@ -88,5 +84,4 @@ terrain_objs = env.Object([
 	Glob(terrain_path+'ortho/*.cpp'),
 	Glob(terrain_path+'preprocess/terrain/*.cpp')]
 )
-
 
