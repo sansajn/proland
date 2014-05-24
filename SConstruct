@@ -1,9 +1,16 @@
+import os
+
+AddOption('--debug-build', action='store_true', dest='debug_build', 
+	default=False)
+
 env = Environment()
+#env['CXX'] = 'clang++'
+#env['ENV']['TERM'] = os.environ['TERM']
+
 
 # core
-env.Append(
-	CPPFLAGS = ['-g', '-O0']
-)
+if GetOption('debug_build'):
+	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG'])
 
 env.Append(
 	CCFLAGS = ['-DORK_API=', '-DTIXML_USE_STL', '-DPROLAND_API='],
@@ -45,7 +52,6 @@ env.Program([
 	'core/examples/helloworld/HelloWorld.cpp', 
 	core_objs],
 	LIBS = ['ork', 'anttweakbar', common_libs], 
-	LIBPATH = ['../ork', '../anttweakbar'],
 )
 
 # terrain
@@ -57,6 +63,35 @@ terrain_objs = env.Object([
 	Glob(terrain_path+'ortho/*.cpp'),
 	Glob(terrain_path+'preprocess/terrain/*.cpp')]
 )
+
+# terrain:examples
+terrain_examples_common = [
+	core_objs, 
+	terrain_objs
+]
+
+terrain_libs = ['ork', 'anttweakbar', common_libs]
+
+for n in range(1,5):
+	env.Program([
+		'terrain/examples/exercise%d/HelloWorld.cpp' % (n, ),
+		terrain_examples_common],
+		LIBS = terrain_libs
+	)
+
+for n in range(1,5):
+	env.Program([
+		'terrain/examples/terrain%d/HelloWorld.cpp' % (n, ),
+		terrain_examples_common],
+		LIBS = terrain_libs
+	)
+
+env.Program([
+	'terrain/examples/preprocess/HelloWorld.cpp',
+	terrain_examples_common],
+	LIBS = terrain_libs
+)
+
 
 # graph
 env.Append(
