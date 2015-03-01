@@ -10,6 +10,8 @@ env = Environment()
 # core
 if GetOption('debug_build'):
 	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG'])
+else:
+	env.Append(CCFLAGS=['-Os'])
 
 env.Append(
 	CCFLAGS = ['-DORK_API=', '-DTIXML_USE_STL', '-DPROLAND_API='],
@@ -138,7 +140,7 @@ terrain_examples_common = [
 
 terrain_libs = ['ork', 'anttweakbar', common_libs]
 
-for n in range(1,5):
+for n in range(1,6):
 	env.Program([
 		'terrain/examples/exercise%d/HelloWorld.cpp' % (n, ),
 		terrain_examples_common],
@@ -146,7 +148,7 @@ for n in range(1,5):
 	)
 
 
-for n in range(1,5):
+for n in range(1,6):
 	env.Program([
 		'terrain/examples/terrain%d/HelloWorld.cpp' % (n, ),
 		terrain_examples_common],

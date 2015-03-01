@@ -1,0 +1,20 @@
+// intermediate
+*.o
+log.html
+HelloWorld
+
+// scons
+*.dblite
+
+// creator project
+*.creator
+*.creator.user
+*.creator.user.*
+*.includes
+*.files
+*.config
+
+*.directory
+
+// doc
+doc/html/
