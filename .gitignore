@@ -14,7 +14,10 @@ HelloWorld
 *.files
 *.config
 
+// system
 *.directory
 
 // doc
 doc/html/
+output/doc/
+doxygen.log

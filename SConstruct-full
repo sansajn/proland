@@ -1,0 +1,147 @@
+# ork build script
+AddOption('--debug-build',	action='store_true',	dest='debug_build',
+	help='debug build', default=False)
+
+env = Environment()
+
+env.ParseConfig('pkg-config --libs --cflags glew')
+
+env.Append(
+	LIBS=['glut', 'pthread'],
+	CCFLAGS=['-DORK_API=', '-DTIXML_USE_STL', '-fPIC'],
+	CPPPATH=['ork/libraries', 'ork']
+)
+
+if GetOption('debug_build'):
+	env.Append(CCFLAGS=['-g', '-O0'])
+else:
+	env.Append(CCFLAGS=['-Os'])
+
+# ork
+core_src = Glob('ork/ork/core/*.cpp')
+math_src = Glob('ork/ork/math/*.cpp')
+render_src = Glob('ork/ork/render/*.cpp')
+resource_src = Glob('ork/ork/resource/*.cpp')
+scenegraph_src = Glob('ork/ork/scenegraph/*.cpp')
+taskgraph_src = Glob('ork/ork/taskgraph/*.cpp')
+ui_src = Glob('ork/ork/ui/*.cpp')
+util_src = Glob('ork/ork/util/*.cpp')
+
+# stbi
+stbi_src = Glob('ork/libraries/stbi/*.cpp')
+
+# tinyxml
+tinyxml_src = Glob('ork/libraries/tinyxml/*.cpp')
+
+
+ork_src = [
+	core_src,
+	math_src,
+	render_src,
+	resource_src,
+	scenegraph_src,
+	taskgraph_src,
+	ui_src,
+	util_src,
+	tinyxml_src,
+	stbi_src
+]
+
+# static library
+#env.Library('libork', ork_src)
+
+# shared library
+shared_ork = env.SharedLibrary('libork', ork_src)
+
+# for install option run '$ scons install'
+lib_dir = '/usr/local/lib'
+env.Install(lib_dir, shared_ork)
+env.Alias('install', lib_dir)
+
+# ork examples
+example_src = Glob('ork/examples/*.cpp')
+
+env.Program(
+	'ork/examples/examples', [example_src, shared_ork])
+
+
+# anttweakbar
+
+tbar_env = Environment()
+
+# linux only
+tbar_src = Split('''
+	TwColors.cpp 
+	TwFonts.cpp 
+	TwOpenGL.cpp 
+	TwOpenGLCore.cpp 
+	TwBar.cpp 
+	TwMgr.cpp 
+	TwPrecomp.cpp 
+	LoadOGL.cpp 
+	LoadOGLCore.cpp
+	TwEventGLUT.c
+	TwEventX11.c''')
+
+tbar_env.Append(
+	CPPPATH=['anttweakbar/include'],
+	CPPFLAGS=['-fPIC', '-fno-strict-aliasing', '-D_UNIX', '-D__PLACEMENT_NEW_LINE'],
+	LIBPATH=['.'],
+	LIBS=['m', 'glut']
+)
+
+shared_tbar = tbar_env.SharedLibrary(
+	'anttweakbar', ['anttweakbar/src/'+s for s in tbar_src])
+
+
+# proland
+
+proland_env = Environment()
+
+proland_env.ParseConfig('pkg-config --libs --cflags libtiff-4')
+proland_env.Append(LIBS='pthread')
+
+proland_env.Append(
+	CCFLAGS = ['-DORK_API=', '-DTIXML_USE_STL', '-DPROLAND_API='],
+	CPPPATH = [
+		'proland/atmo/sources',
+		'proland/core/sources',
+		'proland/edit/sources',
+		'proland/forest/sources',
+		'proland/graph/sources', 
+		'proland/ocean/sources',
+		'proland/river/sources',
+		'proland/terrain/sources',
+		'anttweakbar/include', 
+		'ork',
+		'ork/libraries'])
+
+path = 'proland/core/sources/proland/'
+proland_core_objs = proland_env.Object([
+	Glob(path + 'math/*.cpp'),
+	Glob(path + 'producer/*.cpp'),
+	Glob(path + 'terrain/*.cpp'),
+	Glob(path + 'util/*.cpp'),
+	Glob(path + 'particles/*.cpp'),
+	Glob(path + 'particles/screen/*.cpp'),
+	Glob(path + 'particles/terrain/*.cpp'),
+	Glob(path + 'ui/*.cpp'),
+	Glob(path + 'ui/twbar/*.cpp')])
+
+path = 'proland/terrain/sources/proland/'
+proland_terrain_objs = proland_env.Object([
+	Glob(path + '*.cpp'),
+	Glob(path + 'dem/*.cpp'),
+	Glob(path + 'ortho/*.cpp'),
+	Glob(path + 'preprocess/terrain/*.cpp')])
+
+# core examples
+proland_env.Program([
+	'proland/core/examples/helloworld/HelloWorld.cpp', 
+	proland_core_objs, shared_ork, shared_tbar])
+
+# terrain examples
+for n in range(1,6):
+	proland_env.Program([
+		'proland/terrain/examples/terrain%d/HelloWorld.cpp' % (n, ),
+		proland_core_objs, proland_terrain_objs, shared_ork, shared_tbar])
