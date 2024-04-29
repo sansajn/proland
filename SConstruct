@@ -9,9 +9,9 @@ env = Environment()
 
 # core
 if GetOption('debug_build'):
-	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG'])
+	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG', '-std=c++11'])
 else:
-	env.Append(CCFLAGS=['-Os'])
+	env.Append(CCFLAGS=['-Os', '-std=c++98'])
 
 env.Append(
 	CCFLAGS = ['-DORK_API=', '-DTIXML_USE_STL', '-DPROLAND_API='],

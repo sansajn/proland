@@ -6,3 +6,11 @@ has its own licence, source tree, examples, documentation and project
 files. The directories are mostly independent, except for some 
 dependencies between plugins (and between all the plugins and the core
 library).
+
+To build Proland run
+
+```bash
+scons -j8
+```
+
+command.
