@@ -123,7 +123,7 @@ common_libs = ['GL', 'GLU', 'glut', 'GLEW', 'X11', 'tiff', 'pthread']
 env.Program([
 	'core/examples/helloworld/HelloWorld.cpp', 
 	core_objs],
-	LIBS = ['ork', 'anttweakbar', common_libs], 
+	LIBS = ['ork', 'anttweakbar', common_libs],  # TODO: don't we have pkg-config for ork and anttweakbar?
 )
 
 # terrain:examples
