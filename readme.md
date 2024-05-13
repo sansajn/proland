@@ -16,7 +16,7 @@ library).
 Build and install following dependencies *Ork* and *Anttweakbar*.
 > TODO: add links to repositories
 
-To build Proland run
+To build *Proland* run
 
 ```bash
 scons -j8
@@ -47,7 +47,7 @@ cd core/examples/helloworld
 
 ## Issues
 
-1. `FrameBuffer` error, running sample ends with
+1. `FrameBuffer` error, for `HelloWorld` sample during camera rotation
 
 ```console
 $ ./HelloWorld 
@@ -73,3 +73,10 @@ Aborted (core dumped)
 
 this is the same issue as in a case of *Ork* samples.
 
+The issue occurs on a various locations like in `initUniforms()` caused by subroutines (GLSL 4 feature) or in `FrameBuffer::readPixels()`
+
+```
+ERROR [RENDER] OpenGL error 1282, returned string 'invalid operation'
+invalid operation
+ERROR [ASSERTION] Assertion failed getError() == 0 (file ork/render/FrameBuffer.cpp line 1428)
+```
