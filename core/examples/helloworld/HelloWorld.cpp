@@ -50,6 +50,7 @@ public:
     HelloWorld() : GlutWindow(Window::Parameters().size(1024, 768))
     {
         FileLogger::File *out = new FileLogger::File("log.html");
+        Logger::DEBUG_LOGGER = new FileLogger("DEBUG", out, Logger::DEBUG_LOGGER);
         Logger::INFO_LOGGER = new FileLogger("INFO", out, Logger::INFO_LOGGER);
         Logger::WARNING_LOGGER = new FileLogger("WARNING", out, Logger::WARNING_LOGGER);
         Logger::ERROR_LOGGER = new FileLogger("ERROR", out, Logger::ERROR_LOGGER);

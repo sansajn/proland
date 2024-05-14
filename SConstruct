@@ -9,7 +9,7 @@ env = Environment()
 
 # core
 if GetOption('debug_build'):
-	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG', '-std=c++11'])
+	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG', '-std=c++98'])
 else:
 	env.Append(CCFLAGS=['-Os', '-std=c++98'])
 
