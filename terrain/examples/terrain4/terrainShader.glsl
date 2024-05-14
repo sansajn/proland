@@ -25,6 +25,8 @@
  * Authors: Eric Bruneton, Antoine Begault, Guillaume Piolat.
  */
 
+//#extension GL_EXT_geometry_shader4 : enable
+
 struct samplerTile {
     sampler2DArray tilePool; // tile cache
     vec3 tileCoords; // coords of currently selected tile in tile cache (u,v,layer; u,v in [0,1]^2)
@@ -71,7 +73,6 @@ void main() {
 #endif
 
 #ifdef _GEOMETRY_
-#extension GL_EXT_geometry_shader4 : enable
 
 layout (lines_adjacency) in;
 layout (triangle_strip,max_vertices=4) out;
@@ -81,7 +82,7 @@ in vec2 uvIn[];
 out vec2 uv;
 
 void emit(int i) {
-    gl_Position = gl_PositionIn[i];
+    gl_Position = gl_in[i].gl_Position;  //gl_PositionIn[i];
     uv = uvIn[i];
     EmitVertex();
 }
