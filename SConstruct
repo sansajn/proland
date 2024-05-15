@@ -173,4 +173,17 @@ env.Program([
 	LIBPATH = ['../anttweakbar']
 )
 
-
+# demo
+env.Program([
+	'demo/ProlandDemo.cpp',
+	core_objs,
+	atmo_objs,
+	ocean_objs,
+	edit_objs,
+	river_objs,
+	forest_objs,
+	terrain_objs,
+	graph_objs],
+	LIBS = ['ork', 'anttweakbar', common_libs],
+	LIBPATH = ['../anttweakbar']
+)

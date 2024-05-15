@@ -13,8 +13,7 @@ library).
 
 # Build
 
-Build and install following dependencies *Ork* and *Anttweakbar*.
-> TODO: add links to repositories
+Build and install following dependencies [*Ork*](https://github.com/sansajn/ork) and [*Anttweakbar*](https://github.com/sansajn/anttweakbar).
 
 To build *Proland* run
 
