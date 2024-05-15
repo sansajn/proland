@@ -30,6 +30,7 @@
 #include "ork/core/FileLogger.h"
 #include "ork/render/FrameBuffer.h"
 #include "ork/resource/XMLResourceLoader.h"
+#include "ork/resource/InitResources.h"
 #include "ork/scenegraph/SceneManager.h"
 #include "ork/scenegraph/ShowLogTask.h"
 #include "ork/ui/GlutWindow.h"
@@ -213,6 +214,7 @@ static_ptr<Window> HelloWorld::app;
 
 int main(int argc, char* argv[])
 {
+    ork::InitResourceTypes();
     initTerrainPlugin();
     initGraphPlugin();
     atexit(HelloWorld::exit);

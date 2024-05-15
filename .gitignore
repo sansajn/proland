@@ -10,7 +10,6 @@ HelloWorld
 *.creator
 *.creator.user
 *.creator.user.*
-*.includes
 *.files
 *.config
 
