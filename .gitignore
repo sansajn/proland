@@ -13,6 +13,7 @@ demo/ProlandDemo
 *.creator.user.*
 *.files
 *.config
+.qtc_clangd/
 
 // system
 *.directory

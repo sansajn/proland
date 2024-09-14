@@ -1,5 +1,6 @@
 .
 ../ork
+../ork/libraries
 atmo/sources
 core/sources
 edit/sources
