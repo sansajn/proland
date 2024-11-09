@@ -7,11 +7,16 @@ env = Environment()
 #env['CXX'] = 'clang++'
 #env['ENV']['TERM'] = os.environ['TERM']
 
+# for Ubuntu 22.04 LTS we need to build and install glew manually and it place pkg-config files to /usr/local/lib64/pkgconfig directory
+env.AppendENVPath('PKG_CONFIG_PATH', '/usr/local/lib64/pkgconfig')
+
+env.ParseConfig('pkg-config --libs --cflags glew')
+
 # core
 if GetOption('debug_build'):
 	env.Append(CPPFLAGS = ['-g', '-O0', '-DDEBUG', '-std=c++98'])
 else:
-	env.Append(CCFLAGS=['-Os', '-std=c++98'])
+	env.Append(CCFLAGS=['-O2', '-std=c++98'])
 
 env.Append(
 	CCFLAGS = ['-DORK_API=', '-DTIXML_USE_STL', '-DPROLAND_API='],
